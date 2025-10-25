@@ -1,41 +1,3 @@
-// "use client";
-
-// import Image from "next/image";
-// import { useQuery } from "convex/react";
-// import { api } from "@/convex/_generated/api";
-
-// // Define a clear Car type
-// type Car = {
-//   _id: string;
-//   name: string;
-//   brand: string;
-//   imageUrl: string;
-//   pricePerDay: number;
-// };
-
-// export default function Home() {
-//   const cars = useQuery(api.cars.getCars);
-
-//   return (
-//     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-//       {cars?.map((car: Car) => (
-//         <div key={car._id} className="border p-4 rounded-md w-full max-w-md">
-//           <Image
-//             src={car.imageUrl || "/placeholder-car.jpg"}
-//             alt={car.name || "Car image"}
-//             width={300}
-//             height={200}
-//             className="rounded-md object-cover"
-//           />
-//           <h2 className="text-lg font-semibold mt-2">{car.name}</h2>
-//           <p className="text-gray-500">{car.brand}</p>
-//           <p className="text-blue-600 font-semibold">${car.pricePerDay}/day</p>
-//         </div>
-//       ))}
-//     </main>
-//   );
-// }
-
 
 
 "use client";
@@ -43,6 +5,7 @@
 import Image from "next/image";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+
 
 type Car = {
   _id: string;
