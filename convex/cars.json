@@ -1,0 +1,15 @@
+[
+  {
+  "name": "Toyota Corolla",
+  "brand": "Toyota",
+  "model": "Corolla",
+  "year": 2022,
+  "pricePerDay": 50,
+  "fuelType": "Petrol",
+  "transmission": "Automatic",
+  "seats": 5,
+  "imageUrl": "https://uq15wewaib.ufs.sh/f/8G9WTmq5dIu4QxczdWCgfZmVDTXlGEc5Soh1rLiH38s0xWeU",
+  "available": true
+}
+
+]
