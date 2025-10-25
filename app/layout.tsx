@@ -112,21 +112,34 @@
 
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ConvexClientProvider } from "./ConvexClientProvider";
 import Navbar from "@/components/Navbar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+
+
+// Load IBM Plex Mono fonts
+const IBMPlexMonoBold = localFont({
+  src: "./fonts/IBMPlexMono-Bold.ttf",
+  variable: "--font-imb-bold",
+  display: "swap",
+});
+const IBMPlexMonoMedium = localFont({
+  src: "./fonts/IBMPlexMono-Medium.ttf",
+  variable: "--font-imb-medium",
+  display: "swap",
+});
+const IBMPlexMonoRegular = localFont({
+  src: "./fonts/IBMPlexMono-Regular.ttf",
+  variable: "--font-imb-regular",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// Combine all font variables
+const combinedFonts = `${IBMPlexMonoBold.variable} ${IBMPlexMonoMedium.variable} ${IBMPlexMonoRegular.variable}`;
+
 
 export const metadata: Metadata = {
   title: "Cars",
@@ -139,8 +152,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="en" className={combinedFonts}>
+      <body className="antialiased">
         <ClerkProvider>
           {/* Navbar always visible */}
           <Navbar />
