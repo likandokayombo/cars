@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import {
   Dialog,
   DialogContent,
@@ -14,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import CarImageUpload from "@/components/CarImageUpload";
 import { useUser, SignInButton } from "@clerk/nextjs";
+import { toast } from "sonner";
 
 interface RentCarModalProps {
   onClose?: () => void;
@@ -34,7 +36,26 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
     automatic: false,
   });
 
-  const carLogos = ["/logos/toyota.png", "/logos/bmw.png", "/logos/mercedes.png", "/logos/audi.png"];
+  // ✅ Correct local paths
+  const carLogos = [
+    "/images/toyota-logo.png",
+    "/images/bmw-logo.png",
+    "/images/Mercedes.png",
+    "/images/audi.png",
+    "/images/peugeot-logo.png",
+    "/images/lamborghini-logo.png",
+    "/images/volkswagen-logo.png",
+    "/images/suzuki-logo.png",
+    "/images/mitsubishi-logo.png",
+    "/images/nissan-logo.png",
+    "/images/tesla-logo.png",
+    "/images/kia-logo.png",
+    "/images/honda.png",
+    "/images/ford-logo.png",
+    "/images/chevrolet-logo.png",
+    "/images/ferrari-logo.png",
+    "/images/cadillac-logo.png",
+  ];
 
   const nextStep = () => setStep((prev) => Math.min(prev + 1, 4));
   const prevStep = () => setStep((prev) => Math.max(prev - 1, 1));
@@ -43,7 +64,15 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
 
   const handleSubmit = () => {
     console.log("Final car data:", carData);
-    if (onClose) onClose();
+
+    toast.success("Car listed successfully!", {
+      description: `${carData.name || "Your car"} has been added to the marketplace.`,
+      duration: 3000,
+    });
+
+    setTimeout(() => {
+      if (onClose) onClose();
+    }, 1500);
   };
 
   // Step indicator UI
@@ -51,7 +80,6 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
     <div className="flex items-center justify-between mb-6">
       {[1, 2, 3, 4].map((num, index) => (
         <div key={num} className="flex-1 flex items-center">
-          {/* Circle */}
           <div
             className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-semibold 
               ${step >= num ? "bg-black text-white" : "bg-gray-200 text-gray-500"}
@@ -59,7 +87,6 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
           >
             {num}
           </div>
-          {/* Connector line */}
           {index < 3 && (
             <div
               className={`flex-1 h-[2px] ${
@@ -112,7 +139,14 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
                       }`}
                       onClick={() => handleLogoSelect(logo)}
                     >
-                      <img src={logo} alt="logo" className="w-full h-16 object-contain" />
+                      <Image
+                        src={logo}
+                        alt="car logo"
+                        width={80}
+                        height={80}
+                        className="object-contain w-full h-16"
+                        loading="lazy" 
+                      />
                     </div>
                   ))}
                 </div>
@@ -154,10 +188,9 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
               {/* Step 3: Image upload */}
               {step === 3 && (
                 <div className="space-y-4">
-                  <Label>Add an Image of Your Car</Label>
                   <CarImageUpload
                     imageUrl={carData.imageUrl}
-                    setImageUrl={(url: any) => setCarData({ ...carData, imageUrl: url })}
+                    setImageUrl={(url: string) => setCarData({ ...carData, imageUrl: url })}
                   />
                 </div>
               )}
