@@ -1,15 +1,220 @@
+
+
 [
-  {
+   {
   "name": "Toyota Corolla",
   "brand": "Toyota",
-  "model": "Corolla",
-  "year": 2022,
+  "model": "Camry XV70",
+  "year": 2019,
   "pricePerDay": 50,
   "fuelType": "Petrol",
   "transmission": "Automatic",
   "seats": 5,
   "imageUrl": "https://uq15wewaib.ufs.sh/f/8G9WTmq5dIu4QxczdWCgfZmVDTXlGEc5Soh1rLiH38s0xWeU",
   "available": true
-}
-
+},
+  {
+    "name": "Tesla Model Y",
+    "brand": "Tesla",
+    "model": "Model Y",
+    "year": 2025,
+    "pricePerDay": 200,
+    "fuelType": "Electric",
+    "transmission": "Automatic",
+    "seats": 5,
+    "imageUrl": "https://uq15wewaib.ufs.sh/f/8G9WTmq5dIu4St3y8JEmfobBO4pVIReQcGHYFJmkLz6rt2vM",
+    "available": true
+  },
+  {
+    "name": "BMW i5",
+    "brand": "BMW",
+    "model": "i5",
+    "year": 2024,
+    "pricePerDay": 100,
+    "fuelType": "Petrol",
+    "transmission": "Automatic",
+    "seats": 5,
+    "imageUrl": "https://uq15wewaib.ufs.sh/f/8G9WTmq5dIu4clVXSysq3jfZPQBgWnuiYUrpGa1XIkVL8KO0",
+    "available": true
+  },
+  {
+    "name": " Audi A6 sedan",
+    "brand": "Audi",
+    "model": "A6",
+    "year": 2019,
+    "pricePerDay": 95,
+    "fuelType": "Petrol",
+    "transmission": "Automatic",
+    "seats": 5,
+    "imageUrl": "https://uq15wewaib.ufs.sh/f/8G9WTmq5dIu4KkiG8PSWA76C4ZKRgYxmLq8JkWnwpa1h2rHs",
+    "available": true
+  },
+  {
+    "name": "Lamborghini Ultimae",
+    "brand": "Lamborghini",
+    "model": "LP 780-4 Ultimae",
+    "year": 2011,
+    "pricePerDay": 550,
+    "fuelType": "Petrol",
+    "transmission": "Automatic",
+    "seats": 2,
+    "imageUrl": "https://uq15wewaib.ufs.sh/f/8G9WTmq5dIu4222loYzwXf140gaVylhdGjxZFRtEmuUD6QbP",
+    "available": true
+  },
+  {
+    "name": "Mercedes-Benz C-Class",
+    "brand": "Mercedes",
+    "model": "C300",
+    "year": 2024,
+    "pricePerDay": 110,
+    "fuelType": "Petrol",
+    "transmission": "Automatic",
+    "seats": 5,
+    "imageUrl": "https://uq15wewaib.ufs.sh/f/8G9WTmq5dIu4D6KPgoIhZauUmFWe9Mv8srz0lqiI47x1c3bA",
+    "available": true
+  },
+  {
+    "name": "Peugeot E-3008",
+    "brand": "Peugeot",
+    "model": "E-3008",
+    "year": 2025,
+    "pricePerDay": 300,
+    "fuelType": "Diesel",
+    "transmission": "Automatic",
+    "seats": 5,
+    "imageUrl": "https://uq15wewaib.ufs.sh/f/8G9WTmq5dIu4fzjSZ1lv78mNSDYG5W1VJihxte6olXgdOkZL",
+    "available": true
+  },
+  {
+    "name": " Volkswagen Taigun",
+    "brand": "Volkswagen",
+    "model": "Taigun sport",
+    "year": 2024,
+    "pricePerDay": 80,
+    "fuelType": "Petrol",
+    "transmission": "Automatic",
+    "seats": 5,
+    "imageUrl": "https://uq15wewaib.ufs.sh/f/8G9WTmq5dIu4W3ZgXnV2n9OXyCPzLrtDxBZI8Msfibcgvq5w",
+    "available": true
+  },
+  {
+    "name": "Maruti Suzuki Baleno",
+    "brand": "Suzuki",
+    "model": "1.5 GLX AT",
+    "year": 2021,
+    "pricePerDay": 100,
+    "fuelType": "Petrol",
+    "transmission": "Manual",
+    "seats": 5,
+    "imageUrl": "https://uq15wewaib.ufs.sh/f/8G9WTmq5dIu4IQjaoQ32LhkdQrO3pJ1soPzHVjfGmATwtlcB",
+    "available": true
+  },
+  {
+    "name": "Hyundai Verna",
+    "brand": "Hyundai",
+    "model": "Verna",
+    "year": 2022,
+    "pricePerDay": 75,
+    "fuelType": "Petrol",
+    "transmission": "Automatic",
+    "seats": 5,
+    "imageUrl": "https://uq15wewaib.ufs.sh/f/8G9WTmq5dIu40VD3w4g5kaMcCKBwgIUo3OR2dTnfbYDZ6lzh",
+    "available": true
+  },
+  {
+    "name": "Nissan Micra",
+    "brand": "Nissan",
+    "model": "Micra",
+    "year": 2018,
+    "pricePerDay": 65,
+    "fuelType": "Petrol",
+    "transmission": "Automatic",
+    "seats": 5,
+    "imageUrl": "https://uq15wewaib.ufs.sh/f/8G9WTmq5dIu4iF8U4iBLtORP20nQ95TwVlFKehuivfoGmHCB",
+    "available": true
+  },
+  {
+    "name": "Kia Seltos",
+    "brand": "Kia",
+    "model": "Seltos",
+    "year": 2026,
+    "pricePerDay": 70,
+    "fuelType": "Petrol",
+    "transmission": "Automatic",
+    "seats": 5,
+    "imageUrl": "https://uq15wewaib.ufs.sh/f/8G9WTmq5dIu400GqoNg5kaMcCKBwgIUo3OR2dTnfbYDZ6lzh",
+    "available": true
+  },
+  {
+    "name": "Mitsubishi Outlander Sport",
+    "brand": "Mitsubishi",
+    "model": "Outlander sport",
+    "year": 2025,
+    "pricePerDay": 85,
+    "fuelType": "Hybrid",
+    "transmission": "Automatic",
+    "seats": 7,
+    "imageUrl": "https://uq15wewaib.ufs.sh/f/8G9WTmq5dIu4DKjZXBxIhZauUmFWe9Mv8srz0lqiI47x1c3b",
+    "available": true
+  },
+  {
+    "name": "Ferrari SF90 Stradale",
+    "brand": "Ferrari",
+    "model": "SF90 Stradale",
+    "year": 2023,
+    "pricePerDay": 600,
+    "fuelType": "Petrol",
+    "transmission": "Automatic",
+    "seats": 2,
+    "imageUrl": "https://uq15wewaib.ufs.sh/f/8G9WTmq5dIu43PanJGKBrqwdCcJPstUzVa1762XoKRZ549Oh",
+    "available": true
+  },
+  {
+    "name": "Ford Maverick",
+    "brand": "Ford",
+    "model": " Maverick",
+    "year": 2025,
+    "pricePerDay": 150,
+    "fuelType": "Petrol",
+    "transmission": "Manual",
+    "seats": 4,
+    "imageUrl": "https://uq15wewaib.ufs.sh/f/8G9WTmq5dIu4qV1WWD941dKRBSlvAfuErPoLgpITzHOeD0wZ",
+    "available": true
+  },
+  {
+    "name": "Cadillac Escalade",
+    "brand": "Cadillac",
+    "model": "Escalade",
+    "year": 2025,
+    "pricePerDay": 200,
+    "fuelType": "Petrol",
+    "transmission": "Automatic",
+    "seats": 7,
+    "imageUrl": "https://uq15wewaib.ufs.sh/f/8G9WTmq5dIu4RHOpoZsQDzaZFqgmjpQAl5BoUY643XIVSfNK",
+    "available": true
+  },
+  {
+    "name": " Honda Civic Sedan",
+    "brand": "Honda",
+    "model": "  Civic Sedan",
+    "year": 2026,
+    "pricePerDay": 155,
+    "fuelType": "Petrol",
+    "transmission": "Automatic",
+    "seats": 5,
+    "imageUrl": "https://uq15wewaib.ufs.sh/f/8G9WTmq5dIu4XJ95jSvbMozguAXk5318el2NwTrF6GJji07W",
+    "available": true
+  },
+  {
+    "name": "Chevrolet Camaro",
+    "brand": "Chevrolet",
+    "model": "Camaro",
+    "year": 2024,
+    "pricePerDay": 140,
+    "fuelType": "Petrol",
+    "transmission": "Manual",
+    "seats": 4,
+    "imageUrl": "https://uq15wewaib.ufs.sh/f/8G9WTmq5dIu4Ze5i6FoUhkJsV3wIRX1omrKGF5QWv84tfLDS",
+    "available": true
+  }
 ]
