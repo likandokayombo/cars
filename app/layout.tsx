@@ -64,6 +64,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ConvexClientProvider } from "./ConvexClientProvider";
 import Navbar from "@/components/Navbar";
+
 import { Toaster } from "sonner";
 
 // Load IBM Plex Mono fonts
@@ -89,7 +90,11 @@ const combinedFonts = `${IBMPlexMonoBold.variable} ${IBMPlexMonoMedium.variable}
 export const metadata: Metadata = {
   title: "Cars",
   description: "Car renting web app",
+  icons: {
+    icon: "/images/car.png",
+  },
 };
+
 
 export default function RootLayout({
   children,
