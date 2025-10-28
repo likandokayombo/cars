@@ -1,11 +1,11 @@
 
-
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Label } from "@/components/ui/label";
+import { useState } from "react";
 import { UploadButton } from "@/app/utils/uploadthing";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Upload, Plus } from "lucide-react";
 
 interface CarImageUploadProps {
   imageUrl: string;
@@ -14,67 +14,57 @@ interface CarImageUploadProps {
 
 export default function CarImageUpload({ imageUrl, setImageUrl }: CarImageUploadProps) {
   const [preview, setPreview] = useState<string | null>(imageUrl || null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  useEffect(() => {
-    if (preview && canvasRef.current) {
-      const canvas = canvasRef.current;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-
-      const img = new Image();
-      img.src = preview;
-      img.onload = () => {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        // Draw a fancy blurred background
-        ctx.filter = "blur(10px) brightness(0.8)";
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        ctx.filter = "none";
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      };
-    }
-  }, [preview]);
 
   return (
     <div className="flex flex-col gap-3">
-      <Label>Upload Image</Label>
+      <Label className="font-medium text-gray-700">Upload Image</Label>
 
       {!preview ? (
-        <div className="border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition-all duration-300">
-          <UploadButton
-            endpoint="imageUploader"
-            onClientUploadComplete={(res) => {
-              if (res && res[0]?.ufsUrl) {
-                const url = res[0].ufsUrl;
-                setPreview(url);
-                setImageUrl(url);
-              }
-            }}
-            onUploadError={(error: Error) => {
-              alert(`Upload failed: ${error.message}`);
-            }}
-          />
-          <p className="text-gray-500 text-sm mt-2">📸 Drag or select your car photo</p>
+        <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition-all duration-300 text-center">
+          {/* Upload Icon */}
+          <div className="relative mb-4">
+            <div className="w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center">
+              <Upload className="w-8 h-8 text-orange-600" />
+            </div>
+            <div className="absolute bottom-1 right-1 bg-orange-500 rounded-full p-1 border-2 border-white">
+              <Plus className="w-4 h-4 text-white" />
+            </div>
+          </div>
+
+          {/* Instructional Text */}
+          <p className="text-gray-500 text-sm">
+            Drop your images here <br /> or click below to browse
+          </p>
+
+          {/* Upload Button */}
+          <div className="mt-4">
+            <UploadButton
+              endpoint="imageUploader"
+              className="ut-button bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-lg"
+              onClientUploadComplete={(res) => {
+                if (res && res[0]?.ufsUrl) {
+                  const url = res[0].ufsUrl;
+                  setPreview(url);
+                  setImageUrl(url);
+                }
+              }}
+              onUploadError={(error: Error) => {
+                alert(`Upload failed: ${error.message}`);
+              }}
+            />
+          </div>
         </div>
       ) : (
-        <div className="relative w-full h-60 overflow-hidden rounded-xl shadow-lg">
-          {/* Canvas blurred background */}
-          <canvas
-            ref={canvasRef}
-            className="absolute inset-0 w-full h-full object-cover blur-sm scale-110"
-          />
-          {/* Foreground image */}
+        <div className="relative w-full h-60 overflow-hidden rounded-xl shadow-lg group">
           <img
             src={preview}
             alt="Car Preview"
-            className="absolute inset-0 w-full h-full object-contain transition-transform hover:scale-105"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          <div className="absolute bottom-3 right-3 flex gap-2">
+          <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
             <Button
-              variant="outline"
-              size="sm"
-              className="bg-white/90 hover:bg-white"
+              variant="secondary"
+              className="bg-white text-black hover:bg-gray-200"
               onClick={() => {
                 setPreview(null);
                 setImageUrl("");
