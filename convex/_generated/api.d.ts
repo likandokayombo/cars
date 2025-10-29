@@ -9,7 +9,9 @@
  */
 
 import type * as bookings from "../bookings.js";
-import type * as cars from "../cars.js";
+import type * as carFunctions from "../carFunctions.js";
+import type * as functions_cars_getAvailableCars from "../functions/cars/getAvailableCars.js";
+import type * as functions_cars_getCarById from "../functions/cars/getCarById.js";
 import type * as users from "../users.js";
 
 import type {
@@ -28,7 +30,9 @@ import type {
  */
 declare const fullApi: ApiFromModules<{
   bookings: typeof bookings;
-  cars: typeof cars;
+  carFunctions: typeof carFunctions;
+  "functions/cars/getAvailableCars": typeof functions_cars_getAvailableCars;
+  "functions/cars/getCarById": typeof functions_cars_getCarById;
   users: typeof users;
 }>;
 declare const fullApiWithMounts: typeof fullApi;

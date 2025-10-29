@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import CarImageUpload from "@/components/CarImageUpload";
 import { useUser, SignInButton } from "@clerk/nextjs";
 import { toast } from "sonner";
+import { api } from "@/convex/_generated/api";
 
 interface RentCarModalProps {
   onClose?: () => void;
@@ -29,6 +30,7 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
     logo: "",
     name: "",
     description: "",
+    model: "",
     year: "",
     imageUrl: "",
     price: "",
@@ -70,13 +72,43 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
   const handleDecrement = (field: "seats" | "windows") =>
     setCarData((prev) => ({ ...prev, [field]: Math.max(prev[field] - 1, 0) }));
 
-  const handleSubmit = () => {
-    console.log("Final car data:", carData);
-    toast.success("Car listed successfully!", {
-      description: `${carData.name || "Your car"} has been added to the marketplace.`,
-      duration: 3000,
-    });
-    setTimeout(() => onClose && onClose(), 1500);
+  // ✅ Convex 1.28 mutation
+  const handleSubmit = async () => {
+    if (!carData.name || !carData.imageUrl) {
+      toast.error("Please provide at least a car name and image.");
+      return;
+    }
+
+    const carToAdd = {
+      name: carData.name,
+      brand: carData.logo || carData.name,
+      model: carData.model || "",
+      year: Number(carData.year) || 0,
+      pricePerDay: Number(carData.price) || 0,
+      fuelType: "Petrol",
+      transmission: carData.automatic ? "Automatic" : "Manual",
+      seats: carData.seats,
+      imageUrl: carData.imageUrl,
+      logoUrl: carData.logo || undefined,
+      available: true,
+      description: carData.description || undefined,
+      location: "",
+    };
+
+    try {
+      // ✅ Correct usage for Convex v1.28
+      await api.carFunctions.addCar.mutate(carToAdd);
+
+      toast.success("Car listed successfully!", {
+        description: `${carData.name} has been added to the marketplace.`,
+        duration: 3000,
+      });
+
+      onClose?.();
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to add car. Please try again.");
+    }
   };
 
   const StepIndicator = () => (
@@ -111,7 +143,9 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
       <DialogContent className="max-w-lg">
         {!isSignedIn ? (
           <div className="flex flex-col items-center justify-center py-10">
-            <p className="mb-4 text-center text-gray-700">You need to sign in to rent your car.</p>
+            <p className="mb-4 text-center text-gray-700">
+              You need to sign in to rent your car.
+            </p>
             <SignInButton mode="modal">
               <Button className="bg-black text-white hover:bg-gray-900">Sign In</Button>
             </SignInButton>
@@ -159,76 +193,69 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
               {/* Step 2: Car details */}
               {step === 2 && (
                 <div className="space-y-4">
-                  <p className="text-sm text-gray-500">Tell us more about the car specifications</p>
+                  <Label htmlFor="name">Car Name</Label>
+                  <Input
+                    id="name"
+                    placeholder="Model Name"
+                    value={carData.name}
+                    onChange={(e) =>
+                      setCarData({ ...carData, name: e.target.value })
+                    }
+                  />
 
-                  <div>
-                    <Label htmlFor="name">Car Name</Label>
-                    <Input
-                      id="name"
-                      placeholder="Model Name"
-                      value={carData.name}
-                      onChange={(e) => setCarData({ ...carData, name: e.target.value })}
-                    />
-                  </div>
+                  <Label htmlFor="description">Description</Label>
+                  <Input
+                    id="description"
+                    placeholder="Description"
+                    value={carData.description}
+                    onChange={(e) =>
+                      setCarData({ ...carData, description: e.target.value })
+                    }
+                  />
 
-                  <div>
-                    <Label htmlFor="description">Description</Label>
-                    <Input
-                      id="description"
-                      placeholder="Description of the car"
-                      value={carData.description}
-                      onChange={(e) => setCarData({ ...carData, description: e.target.value })}
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="year">Model Year</Label>
-                    <Input
-                      id="year"
-                      placeholder="2025"
-                      value={carData.year}
-                      onChange={(e) => setCarData({ ...carData, year: e.target.value })}
-                    />
-                  </div>
+                  <Label htmlFor="year">Model Year</Label>
+                  <Input
+                    id="year"
+                    placeholder="2025"
+                    value={carData.year}
+                    onChange={(e) =>
+                      setCarData({ ...carData, year: e.target.value })
+                    }
+                  />
 
                   {/* Seats and Windows */}
                   <div className="flex justify-between items-center">
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">How many seats does it have?</p>
+                      <p className="text-sm text-gray-500 mb-1">Seats</p>
                       <div className="flex items-center gap-2">
                         <Button
                           variant="outline"
                           onClick={() => handleDecrement("seats")}
-                          className="w-8 h-8"
                         >
                           -
                         </Button>
-                        <span className="text-gray-700">{carData.seats}</span>
+                        <span>{carData.seats}</span>
                         <Button
                           variant="outline"
                           onClick={() => handleIncrement("seats")}
-                          className="w-8 h-8"
                         >
                           +
                         </Button>
                       </div>
                     </div>
-
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">How many windows does it have?</p>
+                      <p className="text-sm text-gray-500 mb-1">Windows</p>
                       <div className="flex items-center gap-2">
                         <Button
                           variant="outline"
                           onClick={() => handleDecrement("windows")}
-                          className="w-8 h-8"
                         >
                           -
                         </Button>
-                        <span className="text-gray-700">{carData.windows}</span>
+                        <span>{carData.windows}</span>
                         <Button
                           variant="outline"
                           onClick={() => handleIncrement("windows")}
-                          className="w-8 h-8"
                         >
                           +
                         </Button>
@@ -240,45 +267,47 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
 
               {/* Step 3: Image upload */}
               {step === 3 && (
-                <div className="space-y-4">
-                  <CarImageUpload
-                    imageUrl={carData.imageUrl}
-                    setImageUrl={(url: string) => setCarData({ ...carData, imageUrl: url })}
-                  />
-                </div>
+                <CarImageUpload
+                  imageUrl={carData.imageUrl}
+                  setImageUrl={(url: string) =>
+                    setCarData({ ...carData, imageUrl: url })
+                  }
+                />
               )}
 
               {/* Step 4: Pricing */}
               {step === 4 && (
                 <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="price">Price per Day</Label>
-                    <Input
-                      id="price"
-                      type="number"
-                      placeholder="Price"
-                      value={carData.price}
-                      onChange={(e) => setCarData({ ...carData, price: e.target.value })}
-                    />
-                  </div>
+                  <Label htmlFor="price">Price per Day</Label>
+                  <Input
+                    id="price"
+                    type="number"
+                    placeholder="Price"
+                    value={carData.price}
+                    onChange={(e) =>
+                      setCarData({ ...carData, price: e.target.value })
+                    }
+                  />
 
-                  <div>
-                    <Label htmlFor="maxSpeed">Max Speed</Label>
-                    <Input
-                      id="maxSpeed"
-                      type="number"
-                      placeholder="Max Speed"
-                      value={carData.maxSpeed}
-                      onChange={(e) => setCarData({ ...carData, maxSpeed: e.target.value })}
-                    />
-                  </div>
+                  <Label htmlFor="maxSpeed">Max Speed</Label>
+                  <Input
+                    id="maxSpeed"
+                    type="number"
+                    placeholder="Max Speed"
+                    value={carData.maxSpeed}
+                    onChange={(e) =>
+                      setCarData({ ...carData, maxSpeed: e.target.value })
+                    }
+                  />
 
                   <div className="flex items-center gap-2">
                     <input
                       type="checkbox"
                       id="automatic"
                       checked={carData.automatic}
-                      onChange={(e) => setCarData({ ...carData, automatic: e.target.checked })}
+                      onChange={(e) =>
+                        setCarData({ ...carData, automatic: e.target.checked })
+                      }
                     />
                     <Label htmlFor="automatic">Automatic Transmission</Label>
                   </div>
