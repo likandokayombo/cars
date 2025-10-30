@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import CarImageUpload from "@/components/CarImageUpload";
 import { useUser, SignInButton } from "@clerk/nextjs";
 import { toast } from "sonner";
+import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
 interface RentCarModalProps {
@@ -26,6 +27,9 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
   const { isSignedIn } = useUser();
   const [step, setStep] = useState(1);
 
+  // ✅ Use Convex mutation
+  const addCar = useMutation(api.carFunctions.addCar);
+
   const [carData, setCarData] = useState({
     logo: "",
     name: "",
@@ -34,7 +38,6 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
     year: "",
     imageUrl: "",
     price: "",
-    maxSpeed: "",
     seats: 4,
     windows: 4,
     automatic: false,
@@ -72,7 +75,6 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
   const handleDecrement = (field: "seats" | "windows") =>
     setCarData((prev) => ({ ...prev, [field]: Math.max(prev[field] - 1, 0) }));
 
-  // ✅ Convex 1.28 mutation
   const handleSubmit = async () => {
     if (!carData.name || !carData.imageUrl) {
       toast.error("Please provide at least a car name and image.");
@@ -96,14 +98,11 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
     };
 
     try {
-      // ✅ Correct usage for Convex v1.28
-      await api.carFunctions.addCar.mutate(carToAdd);
-
+      await addCar(carToAdd);
       toast.success("Car listed successfully!", {
         description: `${carData.name} has been added to the marketplace.`,
         duration: 3000,
       });
-
       onClose?.();
     } catch (err) {
       console.error(err);
@@ -116,7 +115,7 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
       {[1, 2, 3, 4].map((num, index) => (
         <div key={num} className="flex-1 flex items-center">
           <div
-            className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-semibold 
+            className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-semibold
               ${step >= num ? "bg-black text-white" : "bg-gray-200 text-gray-500"}
               transition-all duration-300`}
           >
@@ -137,7 +136,7 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="bg-black text-white hover:bg-gray-900">Rent Car</Button>
+        <Button className="bg-black text-white hover:bg-gray-900">Rent  your car</Button>
       </DialogTrigger>
 
       <DialogContent className="max-w-lg">
@@ -165,7 +164,6 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
             <StepIndicator />
 
             <div className="mt-2 space-y-4">
-              {/* Step 1: Car logos */}
               {step === 1 && (
                 <div className="grid grid-cols-4 gap-4">
                   {carLogos.map(({ logo, name }) => (
@@ -190,7 +188,6 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
                 </div>
               )}
 
-              {/* Step 2: Car details */}
               {step === 2 && (
                 <div className="space-y-4">
                   <Label htmlFor="name">Car Name</Label>
@@ -223,7 +220,6 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
                     }
                   />
 
-                  {/* Seats and Windows */}
                   <div className="flex justify-between items-center">
                     <div>
                       <p className="text-sm text-gray-500 mb-1">Seats</p>
@@ -243,29 +239,10 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
                         </Button>
                       </div>
                     </div>
-                    <div>
-                      <p className="text-sm text-gray-500 mb-1">Windows</p>
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant="outline"
-                          onClick={() => handleDecrement("windows")}
-                        >
-                          -
-                        </Button>
-                        <span>{carData.windows}</span>
-                        <Button
-                          variant="outline"
-                          onClick={() => handleIncrement("windows")}
-                        >
-                          +
-                        </Button>
-                      </div>
-                    </div>
                   </div>
                 </div>
               )}
 
-              {/* Step 3: Image upload */}
               {step === 3 && (
                 <CarImageUpload
                   imageUrl={carData.imageUrl}
@@ -275,7 +252,6 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
                 />
               )}
 
-              {/* Step 4: Pricing */}
               {step === 4 && (
                 <div className="space-y-4">
                   <Label htmlFor="price">Price per Day</Label>
@@ -286,17 +262,6 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
                     value={carData.price}
                     onChange={(e) =>
                       setCarData({ ...carData, price: e.target.value })
-                    }
-                  />
-
-                  <Label htmlFor="maxSpeed">Max Speed</Label>
-                  <Input
-                    id="maxSpeed"
-                    type="number"
-                    placeholder="Max Speed"
-                    value={carData.maxSpeed}
-                    onChange={(e) =>
-                      setCarData({ ...carData, maxSpeed: e.target.value })
                     }
                   />
 
@@ -315,7 +280,6 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
               )}
             </div>
 
-            {/* Navigation Buttons */}
             <div className="mt-6 flex justify-between">
               {step > 1 ? (
                 <Button variant="outline" onClick={prevStep}>
@@ -342,3 +306,27 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
     </Dialog>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

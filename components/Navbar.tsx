@@ -1,6 +1,4 @@
 
-
-
 "use client";
 
 import Link from "next/link";
@@ -15,31 +13,21 @@ export default function Navbar() {
       {/* Logo */}
       <Link href="/" className="flex items-center gap-2">
         <Image
-          src="/images/car.png" 
+          src="/images/car.png"
           alt="Cars Logo"
           width={40}
           height={40}
           className="object-contain"
-          loading="lazy" 
+          loading="lazy"
         />
-        
       </Link>
 
       <div className="flex items-center gap-3">
         {/* Rent Car button */}
         <RentCarModal />
 
-        {/* Dashboard (signed in only) */}
+        {/* Signed-in user */}
         <SignedIn>
-          <Link href="/dashboard">
-            <Button className="flex items-center gap-2 bg-black text-white hover:bg-gray-900">
-              <span>Dashboard</span>
-              <span className="text-xs font-medium bg-gray-200 text-gray-800 px-2 py-0.5 rounded-full">
-                Free Plan
-              </span>
-            </Button>
-          </Link>
-
           {/* User avatar */}
           <UserButton afterSignOutUrl="/" />
         </SignedIn>
