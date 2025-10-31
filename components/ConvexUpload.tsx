@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import type { Id } from "@/convex/_generated/dataModel";
 
 interface ConvexUploadProps {
-  onUploaded: (args: { storageId: string; url: string }) => void;
+  onUploaded: (args: { storageId: Id<"_storage">; url: string }) => void;
   accept?: string;
   label?: string;
 }
@@ -48,17 +49,19 @@ export default function ConvexUpload({
 
       if (!result.ok) throw new Error("Upload failed");
       const json = (await result.json()) as { storageId: string };
+      const storageId = json.storageId as Id<"_storage">;
 
       // After Convex stores the file, save and retrieve a public URL for UI usage.
       // Pass filename as alt if available.
       const saved = await saveUploadedFile({
-        storageId: json.storageId,
+        storageId,
         alt: file.name || undefined,
       });
-      onUploaded({ storageId: json.storageId, url: saved.url });
+      const publicUrl = saved.url ?? "";
+      onUploaded({ storageId, url: publicUrl });
       toast.success("Uploaded successfully");
     } catch (e: any) {
-      toast.error(e?.message || "Upload error");
+      toast.error(String(e?.message || "Upload error"));
     } finally {
       setIsUploading(false);
     }

@@ -24,7 +24,7 @@ interface RentCarModalProps {
 }
 
 export default function RentCarModal({ onClose }: RentCarModalProps) {
-  const { isSignedIn } = useUser();
+  const { isSignedIn, user } = useUser();
   const [step, setStep] = useState(1);
 
   // ✅ Use Convex mutation
@@ -95,6 +95,7 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
       available: true,
       description: carData.description || undefined,
       location: "",
+      ownerClerkId: user?.id,
     };
 
     try {
@@ -136,7 +137,9 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="bg-black text-white hover:bg-gray-900">Rent  your car</Button>
+        <Button className="bg-black text-white hover:bg-gray-900">
+          Rent your car
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="max-w-lg">
@@ -146,7 +149,9 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
               You need to sign in to rent your car.
             </p>
             <SignInButton mode="modal">
-              <Button className="bg-black text-white hover:bg-gray-900">Sign In</Button>
+              <Button className="bg-black text-white hover:bg-gray-900">
+                Sign In
+              </Button>
             </SignInButton>
           </div>
         ) : (
@@ -170,7 +175,9 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
                     <div
                       key={logo}
                       className={`border-2 p-2 rounded cursor-pointer hover:scale-105 transition-transform text-center ${
-                        carData.logo === logo ? "border-black" : "border-gray-200"
+                        carData.logo === logo
+                          ? "border-black"
+                          : "border-gray-200"
                       }`}
                       onClick={() => handleLogoSelect(logo, name)}
                     >
@@ -306,27 +313,3 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
     </Dialog>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

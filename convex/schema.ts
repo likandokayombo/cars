@@ -17,6 +17,7 @@ export default defineSchema({
     available: v.boolean(),
     description: v.optional(v.string()),
     location: v.optional(v.string()), // e.g., "Lusaka"
+    ownerClerkId: v.optional(v.string()), // Clerk user id of lister
   }),
 
   bookings: defineTable({
@@ -33,6 +34,6 @@ export default defineSchema({
     name: v.string(),
     email: v.string(),
     phone: v.optional(v.string()),
-    role: v.optional(v.string()), // "user" or "admin"
+    role: v.optional(v.union(v.literal("ADMIN"), v.literal("USER"))), // hard-coded roles
   }),
 });
