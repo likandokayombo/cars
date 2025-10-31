@@ -1,8 +1,7 @@
-
-
 "use client";
 
 import Image from "next/image";
+import { useEffect } from "react";
 import Link from "next/link";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -28,6 +27,20 @@ type CarFromConvex = {
 export default function Home() {
   // ✅ Updated namespace from 'cars' → 'carFunctions'
   const cars = useQuery(api.carFunctions.getAvailableCars);
+
+  useEffect(() => {
+    if (cars) {
+      console.log("[Home] cars:", cars);
+      for (const c of cars as any[]) {
+        console.log("[Home] car item:", {
+          id: c?._id,
+          name: c?.name,
+          imageUrl: c?.imageUrl,
+          logoUrl: c?.logoUrl,
+        });
+      }
+    }
+  }, [cars]);
 
   if (!cars)
     return (
@@ -59,13 +72,16 @@ export default function Home() {
                 src={car.imageUrl || car.logoUrl || "/placeholder-car.jpg"}
                 alt={car.name}
                 fill
+                unoptimized={Boolean((car.imageUrl || "").startsWith("http"))}
                 className="object-cover"
               />
             </div>
             <div className="p-4">
               <h2 className="text-xl font-semibold">{car.name}</h2>
               <p className="text-gray-500">{car.brand}</p>
-              <p className="text-blue-600 font-bold mt-2">${car.pricePerDay}/day</p>
+              <p className="text-blue-600 font-bold mt-2">
+                ${car.pricePerDay}/day
+              </p>
             </div>
           </Link>
         ))}
