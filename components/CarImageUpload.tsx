@@ -1,8 +1,7 @@
-
 "use client";
 
 import { useState } from "react";
-import { UploadButton } from "@/app/utils/uploadthing";
+import ConvexUpload from "@/components/ConvexUpload";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Upload, Plus } from "lucide-react";
@@ -12,7 +11,10 @@ interface CarImageUploadProps {
   setImageUrl: (url: string) => void;
 }
 
-export default function CarImageUpload({ imageUrl, setImageUrl }: CarImageUploadProps) {
+export default function CarImageUpload({
+  imageUrl,
+  setImageUrl,
+}: CarImageUploadProps) {
   const [preview, setPreview] = useState<string | null>(imageUrl || null);
 
   return (
@@ -36,21 +38,15 @@ export default function CarImageUpload({ imageUrl, setImageUrl }: CarImageUpload
             Drop your images here <br /> or click below to browse
           </p>
 
-          {/* Upload Button */}
+          {/* Upload Button (Convex) */}
           <div className="mt-4">
-            <UploadButton
-              endpoint="imageUploader"
-              className="ut-button bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-lg"
-              onClientUploadComplete={(res) => {
-                if (res && res[0]?.ufsUrl) {
-                  const url = res[0].ufsUrl;
-                  setPreview(url);
-                  setImageUrl(url);
-                }
+            <ConvexUpload
+              onUploaded={({ url }) => {
+                setPreview(url);
+                setImageUrl(url);
               }}
-              onUploadError={(error: Error) => {
-                alert(`Upload failed: ${error.message}`);
-              }}
+              accept="image/*"
+              label="Upload image"
             />
           </div>
         </div>
