@@ -13,9 +13,13 @@ import { Button } from "@/components/ui/button";
 import RentCarModal from "@/components/RentCarModal";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Menu, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function Navbar() {
+  const [showMobileNav, setShowMobileNav] = useState(false);
+
   const { user, isSignedIn } = useUser();
   const role = useQuery(
     api.users.getRoleByClerkId,
@@ -41,10 +45,11 @@ export default function Navbar() {
     );
   }, [isSignedIn, user, existingUser, createUser]);
 
+  const toggleNav = () => setShowMobileNav(prevState => !prevState);
   return (
-    <nav className="flex justify-between items-center h-16 px-6 border-b bg-white/80 backdrop-blur-sm">
+    <nav className="flex items-center relative h-16 px-6 border-b bg-white/80 backdrop-blur-sm gap-3">
       {/* Logo */}
-      <Link href="/" className="flex items-center gap-2">
+      <Link href="/" className="flex items-center gap-2 mr-auto">
         <Image
           src="/images/car.png"
           alt="Cars Logo"
@@ -55,25 +60,56 @@ export default function Navbar() {
         />
       </Link>
 
-      <div className="flex items-center gap-3">
+      <Navigations className="hidden sm:flex items-center gap-3" isAdmin={isAdmin} />
+
+      <button className="sm:hidden" onClick={toggleNav}>
+        <Menu />
+      </button>
+
+      {/* Signed-in user */}
+      <SignedIn>
+        <span className="text-sm text-gray-700 hidden sm:inline">
+          Hello, {user?.firstName || user?.fullName || "there"}
+        </span>
+        {/* User avatar */}
+        <UserButton afterSignOutUrl="/" />
+      </SignedIn>
+
+      <div className={
+        cn("h-screen transition-all w-full sm:hidden fixed top-0 bg-white right-0 z-50 py-8 px-4", showMobileNav ? "right-0" : "-right-full")
+      }>
+        <div className="flex items-center justify-between">
+          <Image
+            src="/images/car.png"
+            alt="Cars Logo"
+            width={40}
+            height={40}
+            className="object-contain"
+            loading="lazy"
+          />
+
+          <button onClick={toggleNav}><X/></button>
+        </div>
+
+        <Navigations className="flex flex-col gap-3 pt-20" isAdmin={isAdmin}/>
+      </div>
+    </nav>
+  );
+}
+
+
+function Navigations({className, isAdmin}:{className?: string, isAdmin: boolean}){
+  return(
+    <div className={className}>
         {/* Admin (visible for admins) */}
         {isAdmin && (
-          <Link href="/admin">
-            <Button variant="outline">Admin</Button>
+          <Link href="/admin" className="max-sm:block">
+            <Button className="max-sm:w-full" variant="outline">Admin</Button>
           </Link>
         )}
 
         {/* Rent Car button */}
         <RentCarModal />
-
-        {/* Signed-in user */}
-        <SignedIn>
-          <span className="text-sm text-gray-700">
-            Hello, {user?.firstName || user?.fullName || "there"}
-          </span>
-          {/* User avatar */}
-          <UserButton afterSignOutUrl="/" />
-        </SignedIn>
 
         {/* Sign In button (signed out only) */}
         <SignedOut>
@@ -84,6 +120,5 @@ export default function Navbar() {
           </SignInButton>
         </SignedOut>
       </div>
-    </nav>
-  );
+  )
 }

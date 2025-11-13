@@ -72,12 +72,16 @@ export default function ConvexUpload({
       <input
         type="file"
         accept={accept}
+        id="file-upload"
         onChange={(e) => handleFileChange(e.target.files?.[0] || undefined)}
         disabled={isUploading}
+        hidden
       />
-      <Button type="button" disabled className="pointer-events-none">
-        {isUploading ? "Uploading..." : label}
-      </Button>
+      <label htmlFor="file-upload">
+        <Button type="button" className="pointer-events-none">
+          {isUploading ? "Uploading..." : label}
+        </Button>
+      </label>
     </div>
   );
 }
