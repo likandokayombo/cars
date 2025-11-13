@@ -57,8 +57,9 @@ export default function Home() {
     );
 
   return (
-    <main className="flex flex-col items-center p-8 gap-6 min-h-screen bg-gray-50">
-      <h1 className="text-3xl font-bold mb-6">Available Cars</h1>
+    <main className=" py-8 gap-6 min-h-screen bg-gray-50">
+      <div className="container mx-auto px-4 flex flex-col items-center">
+      <h1 className="min-[254px]:text-2xl sm:text-3xl font-bold mb-6">Available Cars</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-6xl">
         {cars.map((car: CarFromConvex) => (
@@ -67,7 +68,7 @@ export default function Home() {
             href={`/cars/${car._id}`}
             className="border rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow bg-white"
           >
-            <div className="relative w-full h-64">
+            <div className="relative w-full aspect-video">
               <Image
                 src={car.imageUrl || car.logoUrl || "/placeholder-car.jpg"}
                 alt={car.name}
@@ -85,6 +86,7 @@ export default function Home() {
             </div>
           </Link>
         ))}
+      </div>
       </div>
     </main>
   );

@@ -31,6 +31,7 @@ export default function CarDetailsPage() {
   const carArgs = id ? { carId: id as Id<"cars"> } : "skip";
 
   const car = useQuery(api.carFunctions.getCarById, carArgs) as Car | undefined;
+  
 
   if (!car) {
     return (
@@ -41,13 +42,13 @@ export default function CarDetailsPage() {
   }
 
   return (
-    <main className="flex flex-col items-center p-8 gap-6 min-h-screen bg-gray-50">
-      <Link href="/cars" className="self-start text-blue-600 hover:underline">
+    <main className="flex flex-col items-center p-4 sm:px-8 py-8 gap-6 min-h-screen bg-gray-50">
+      <Link href="/cars" className="self-start text-orange-500 hover:underline">
         ← Back to Cars
       </Link>
 
       <div className="max-w-4xl w-full bg-white rounded-lg shadow overflow-hidden">
-        <div className="relative w-full h-96">
+        <div className="relative w-full aspect-video">
           <Image
             src={car.imageUrl || "/placeholder-car.jpg"}
             alt={car.name}
@@ -56,8 +57,8 @@ export default function CarDetailsPage() {
           />
         </div>
 
-        <div className="p-6 space-y-4">
-          <h1 className="text-3xl font-bold">{car.name}</h1>
+        <div className="p-4 sm:p-6 space-y-2 sm:space-y-4">
+          <h1 className="text-xl sm:text-3xl font-bold">{car.name}</h1>
           <p className="text-gray-500">
             {car.brand} {car.model && `- ${car.model}`}
           </p>
@@ -72,7 +73,7 @@ export default function CarDetailsPage() {
             )}
           </div>
 
-          <p className="text-blue-600 font-bold text-xl">${car.pricePerDay}/day</p>
+          <p className="text-orange-500 font-bold text-lg sm:text-xl">${car.pricePerDay}/day</p>
         </div>
       </div>
     </main>

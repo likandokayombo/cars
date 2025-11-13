@@ -18,6 +18,7 @@ import { useUser, SignInButton } from "@clerk/nextjs";
 import { toast } from "sonner";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { cn } from "@/lib/utils";
 
 interface RentCarModalProps {
   onClose?: () => void;
@@ -112,24 +113,19 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
   };
 
   const StepIndicator = () => (
-    <div className="flex items-center justify-between mb-6">
-      {[1, 2, 3, 4].map((num, index) => (
-        <div key={num} className="flex-1 flex items-center">
+    <div className="flex items-center justify-center gap-9 mb-6">
+      {[1, 2, 3, 4].map(num => (
           <div
-            className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-semibold
-              ${step >= num ? "bg-black text-white" : "bg-gray-200 text-gray-500"}
-              transition-all duration-300`}
+            key={num}
+            className={cn("w-8 h-8 flex items-center justify-center rounded-full text-sm font-semibold",
+              step >= num ? "bg-black text-white" : "bg-gray-200 text-gray-500",
+              "transition-all duration-300 relative",
+              "after:content-[''] after:h-0.5 after:block after:w-9 after:absolute after:top-1/2 after:left-8 last:after:hidden",
+              step > num ? "after:bg-black" : "after:bg-gray-200"
+            )}
           >
             {num}
           </div>
-          {index < 3 && (
-            <div
-              className={`flex-1 h-[2px] ${
-                step > num ? "bg-black" : "bg-gray-200"
-              } transition-all duration-300`}
-            />
-          )}
-        </div>
       ))}
     </div>
   );
@@ -142,9 +138,9 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-lg">
+      <DialogContent className="max-w-lg max-h-[600px] max-sm:overflow-y-scroll w-11/12">
         {!isSignedIn ? (
-          <div className="flex flex-col items-center justify-center py-10">
+          <div className="flex flex-col items-center justify-center p-5 sm:py-10">
             <p className="mb-4 text-center text-gray-700">
               You need to sign in to rent your car.
             </p>
@@ -170,11 +166,11 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
 
             <div className="mt-2 space-y-4">
               {step === 1 && (
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-4">
                   {carLogos.map(({ logo, name }) => (
                     <div
                       key={logo}
-                      className={`border-2 p-2 rounded cursor-pointer hover:scale-105 transition-transform text-center ${
+                      className={`border-2 p-1 sm:p-2 rounded cursor-pointer hover:scale-105 transition-transform text-center ${
                         carData.logo === logo
                           ? "border-black"
                           : "border-gray-200"
