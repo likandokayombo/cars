@@ -62,7 +62,7 @@ export default function Navbar() {
 
       <Navigations className="hidden sm:flex items-center gap-3" isAdmin={isAdmin} />
 
-      <button className="sm:hidden" onClick={toggleNav}>
+      <button className="sm:hidden z-50" onClick={toggleNav}>
         <Menu />
       </button>
 
