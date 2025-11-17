@@ -309,3 +309,10 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
     </Dialog>
   );
 }
+
+
+
+
+
+
+
