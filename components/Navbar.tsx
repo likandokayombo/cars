@@ -47,7 +47,7 @@ export default function Navbar() {
 
   const toggleNav = () => setShowMobileNav(prevState => !prevState);
   return (
-    <nav className="flex items-center relative h-16 px-6 border-b bg-white/80 backdrop-blur-sm gap-3">
+    <nav className="flex items-center relative h-16 px-6 border-b bg-white/80 backdrop-blur-sm gap-3 z-50">
       {/* Logo */}
       <Link href="/" className="flex items-center gap-2 mr-auto">
         <Image
