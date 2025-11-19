@@ -3,12 +3,14 @@
 
 "use client";
 
+import * as React from "react";
 import { useParams } from "next/navigation";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Image from "next/image";
 import Link from "next/link";
 import { Id } from "@/convex/_generated/dataModel";
+import { Calendar } from "@/components/ui/calendar";
 
 type Car = {
   _id: Id<"cars">;
@@ -27,11 +29,10 @@ type Car = {
 export default function CarDetailsPage() {
   const { id } = useParams();
 
-  // ✅ Use "skip" to disable the query when id is not available
   const carArgs = id ? { carId: id as Id<"cars"> } : "skip";
-
   const car = useQuery(api.carFunctions.getCarById, carArgs) as Car | undefined;
-  
+
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
 
   if (!car) {
     return (
@@ -47,6 +48,7 @@ export default function CarDetailsPage() {
         ← Back to Cars
       </Link>
 
+      {/* 🚗 Car Card */}
       <div className="max-w-4xl w-full bg-white rounded-lg shadow overflow-hidden">
         <div className="relative w-full aspect-video">
           <Image
@@ -73,9 +75,22 @@ export default function CarDetailsPage() {
             )}
           </div>
 
-          <p className="text-orange-500 font-bold text-lg sm:text-xl">${car.pricePerDay}/day</p>
+          <p className="text-orange-500 font-bold text-lg sm:text-xl">
+            ${car.pricePerDay}/day
+          </p>
         </div>
       </div>
+
+      {/* 🗓️ Calendar Card (always below) */}
+      <div className="max-w-4xl w-full flex flex-col items-center p-4 sm:p-6">
+  <h2 className="font-semibold mb-4 text-lg text-center">Select Rental Date</h2>
+  <Calendar
+    mode="single"
+    selected={date}
+    onSelect={setDate}
+    className="rounded-lg border"
+     />
+  </div>
     </main>
   );
 }
