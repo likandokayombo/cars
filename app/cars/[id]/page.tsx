@@ -44,7 +44,7 @@ export default function CarDetailsPage() {
 
   return (
     <main className="flex flex-col items-center p-4 sm:px-8 py-8 gap-6 min-h-screen bg-gray-50">
-      <Link href="/cars" className="self-start text-orange-500 hover:underline">
+      <Link href="/" className="self-start text-orange-500 hover:underline">
         ← Back to Cars
       </Link>
 
