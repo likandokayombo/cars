@@ -138,7 +138,12 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-lg max-h-[600px] max-sm:overflow-y-scroll w-11/12">
+      <DialogContent
+  className="max-w-lg w-11/12 
+  max-sm:overflow-y-scroll 
+  sm:max-h-[85vh] sm:overflow-y-auto sm:h-auto"
+>
+
         {!isSignedIn ? (
           <div className="flex flex-col items-center justify-center p-5 sm:py-10">
             <p className="mb-4 text-center text-gray-700">
@@ -309,6 +314,9 @@ export default function RentCarModal({ onClose }: RentCarModalProps) {
     </Dialog>
   );
 }
+
+
+
 
 
 
